@@ -21,7 +21,11 @@ public class User implements Serializable {
 	@Id // estou infomamdno que o long id é o ID da classe
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // pro proprio banco de dados gerar o ID
 	private Long id;
-	private String name, email, phone, password;
+	private String name;
+	private String email;
+	private String phone;
+	private String password;
+	
 	
 	@JsonIgnore // anotação para nao fazer o loop da classe "Muitos para uma", importante deixar o campo "spring.jpa.show-sql=true" na "aplication.properties" com o valor TRUE para permitir que o jackson faça a pesquisa no BD e retornar os valores do campo Orders 
 	@OneToMany(mappedBy = "client")

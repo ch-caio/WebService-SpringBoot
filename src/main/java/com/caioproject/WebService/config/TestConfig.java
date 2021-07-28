@@ -10,10 +10,13 @@ import org.springframework.context.annotation.Profile;
 
 import com.caioproject.WebService.entities.Category;
 import com.caioproject.WebService.entities.Order;
+import com.caioproject.WebService.entities.OrderItem;
+import com.caioproject.WebService.entities.Payment;
 import com.caioproject.WebService.entities.Product;
 import com.caioproject.WebService.entities.User;
 import com.caioproject.WebService.entities.enums.OrderStatus;
 import com.caioproject.WebService.repositories.CategoryRepository;
+import com.caioproject.WebService.repositories.OrderItemRepository;
 import com.caioproject.WebService.repositories.OrderRepository;
 import com.caioproject.WebService.repositories.ProductRepository;
 import com.caioproject.WebService.repositories.UserRepository;
@@ -33,6 +36,9 @@ public class TestConfig implements CommandLineRunner { // classe de configura√ß√
 
 	@Autowired
 	private	ProductRepository productRepository;
+	
+	@Autowired
+	private	OrderItemRepository orderItemRepository;	
 	
 	@Override
 	public void run(String... args) throws Exception { // tudo que esta aqui dentro vai rodar quando iniciar o main, usar o implements CommandLineRunner no incio
@@ -67,5 +73,16 @@ public class TestConfig implements CommandLineRunner { // classe de configura√ß√
 		
 		userRepository.saveAll(Arrays.asList(u1,u2)); // chamei com o nome que eu dei pra classe, comando saveAll (cria uma lista com as duas variaveis para adicionar ao banco de dados)
 		orderRepository.saveAll(Arrays.asList(o1,o2,o3));
+		
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T20:53:07Z"), o1);
+		o1.setPayment(pay1);
+		orderRepository.save(o1);
 	}
 }
